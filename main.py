@@ -61,8 +61,8 @@ async def on_message(message):
         else:
             await message.channel.send('Error')
     elif message.content == '/reset':
-        schedule = datetime.datetime.now()
-        schedule -= datetime.timedelta(seconds=schedule.second)
+        schedule = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month,
+                                     datetime.datetime.now().day, HOUR, MINUTE)
         tomorrow_schedule = schedule + datetime.timedelta(days=1)
         await message.channel.send(schedule.strftime('%Y/%m/%d %H:%M'))
 
