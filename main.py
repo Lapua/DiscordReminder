@@ -38,7 +38,7 @@ async def on_message(message):
                                    '/next : 次に通知する時間\n'
                                    '/stop (days) : 指定した日数だけ通知を止める\n'
                                    '/reset : 通知を今日からする')
-    if message.content == 'のんだ' || message.content == 'すてた':
+    if message.content == 'のんだ' or message.content == 'すてた':
         margin = datetime.datetime.now()
         margin += datetime.timedelta(hours=1)
         if margin > schedule:
