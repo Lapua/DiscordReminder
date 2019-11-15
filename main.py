@@ -32,12 +32,13 @@ async def on_message(message):
     global schedule
     global tomorrow_schedule
     if message.content == '/help':
-        await message.channel.send('のんだ : その日の通知を消します\n'
+        await message.channel.send('(のんだ | すてた) : その日の通知を消します\n'
+                                   'のむよ (mins) : その日の通知を延長します\n'
                                    '/init : Botを起動してから最初だけうつコマンド\n'
                                    '/next : 次に通知する時間\n'
-                                   '/stop [days] : 指定した日数だけ通知を止める\n'
+                                   '/stop (days) : 指定した日数だけ通知を止める\n'
                                    '/reset : 通知を今日からする')
-    if message.content == 'のんだ':
+    if message.content == 'のんだ' || message.content == 'すてた':
         margin = datetime.datetime.now()
         margin += datetime.timedelta(hours=1)
         if margin > schedule:
@@ -53,7 +54,7 @@ async def on_message(message):
         await message.channel.send(schedule.strftime('%Y/%m/%d %H:%M'))
     elif message.content.startswith('/stop '):
         days = message.content
-        days = days[6:8]
+        days = days[6:7]
         if days.isdecimal():
             schedule += datetime.timedelta(days=int(days))
             tomorrow_schedule += datetime.timedelta(days=int(days))
@@ -65,6 +66,15 @@ async def on_message(message):
                                      datetime.datetime.now().day, HOUR, MINUTE)
         tomorrow_schedule = schedule + datetime.timedelta(days=1)
         await message.channel.send(schedule.strftime('%Y/%m/%d %H:%M'))
+    elif message.content.startswith('のむよ '):
+        mins = message.content
+        mins = mins[4:7]
+        if mins.isdecimal():
+            schedule += datetime.timedelta(minutes=int(mins))
+            await message.channel.send(schedule.strftime('%Y/%m/%d %H:%M'))
+        else:
+            await message.channel.send('Error')
+
 
 
 loop.start()
