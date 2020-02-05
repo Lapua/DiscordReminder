@@ -74,6 +74,7 @@ async def on_message(message):
         if days.isdecimal():
             schedule += datetime.timedelta(days=int(days))
             tomorrow_schedule += datetime.timedelta(days=int(days))
+            num_of_day += days
             print_next(message)
         else:
             await message.channel.send('Error')
